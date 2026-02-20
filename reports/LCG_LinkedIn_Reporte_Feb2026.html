@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte LinkedIn — London Consulting Group México</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; }
+  
+  .header { background: linear-gradient(135deg, #0a3161 0%, #0077b5 100%); color: white; padding: 40px 60px; }
+  .header h1 { font-size: 28px; font-weight: 300; letter-spacing: 1px; }
+  .header h2 { font-size: 16px; font-weight: 400; opacity: 0.8; margin-top: 6px; }
+  .header .period { margin-top: 16px; font-size: 13px; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 12px; }
+  .logo-area { display: flex; justify-content: space-between; align-items: flex-start; }
+  .platform-badge { background: rgba(255,255,255,0.15); border-radius: 20px; padding: 6px 16px; font-size: 12px; font-weight: 600; letter-spacing: 1px; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 60px; }
+
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #0077b5; text-transform: uppercase; margin-bottom: 20px; margin-top: 40px; }
+
+  /* KPI Cards */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 10px; }
+  .kpi-card { background: white; border-radius: 12px; padding: 24px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-top: 3px solid #0077b5; }
+  .kpi-card .value { font-size: 32px; font-weight: 700; color: #0a3161; line-height: 1; }
+  .kpi-card .label { font-size: 12px; color: #666; margin-top: 6px; }
+  .kpi-card .sub { font-size: 11px; color: #0077b5; margin-top: 4px; font-weight: 600; }
+  .kpi-card.green { border-top-color: #00875a; }
+  .kpi-card.green .value { color: #00875a; }
+  .kpi-card.orange { border-top-color: #ff6b2b; }
+  .kpi-card.orange .value { color: #ff6b2b; }
+
+  /* Insights */
+  .insights-box { background: #eaf4fb; border-left: 4px solid #0077b5; border-radius: 0 8px 8px 0; padding: 20px 24px; margin-bottom: 10px; }
+  .insights-box h3 { font-size: 13px; font-weight: 700; color: #0077b5; margin-bottom: 12px; }
+  .insight-item { display: flex; align-items: flex-start; margin-bottom: 8px; font-size: 13px; line-height: 1.5; color: #333; }
+  .insight-item .dot { width: 6px; height: 6px; background: #0077b5; border-radius: 50%; margin-top: 6px; margin-right: 10px; flex-shrink: 0; }
+  .insight-item.positive .dot { background: #00875a; }
+  .insight-item.warning .dot { background: #ff6b2b; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  th { background: #0a3161; color: white; padding: 12px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-align: left; }
+  td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid #f0f0f0; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fbff; }
+  .highlight-row td { font-weight: 700; color: #0a3161; background: #eaf4fb; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+  .badge-blue { background: #dbeeff; color: #0077b5; }
+  .badge-green { background: #d4f0e0; color: #00875a; }
+  .badge-gray { background: #f0f0f0; color: #666; }
+
+  /* Split layout */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .card h4 { font-size: 12px; font-weight: 700; color: #666; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .metric-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f5f5f5; }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-row .mname { font-size: 13px; color: #444; }
+  .metric-row .mvalue { font-size: 14px; font-weight: 700; color: #0a3161; }
+
+  /* Bar chart visual */
+  .bar-container { margin-top: 8px; }
+  .bar-row { display: flex; align-items: center; margin-bottom: 10px; }
+  .bar-label { width: 140px; font-size: 12px; color: #444; flex-shrink: 0; }
+  .bar-track { flex: 1; background: #f0f0f0; border-radius: 4px; height: 20px; position: relative; }
+  .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 700; color: white; }
+  .bar-fill.lcg { background: #0077b5; }
+  .bar-fill.acc { background: #c0c0c0; }
+  .bar-fill.sint { background: #b0b8c4; }
+
+  .footer { background: #0a3161; color: rgba(255,255,255,0.5); text-align: center; padding: 20px; font-size: 11px; margin-top: 60px; }
+  
+  .alert-box { background: #fff8e6; border: 1px solid #ffd166; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; }
+  .alert-box p { font-size: 13px; color: #8a6200; }
+  .alert-box strong { color: #5a4000; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-area">
+    <div>
+      <h1>London Consulting Group México</h1>
+      <h2>Reporte de Desempeño — LinkedIn</h2>
+    </div>
+    <div class="platform-badge">LINKEDIN ANALYTICS</div>
+  </div>
+  <div class="period">Período de análisis: 20 Enero — 18 Febrero 2026 &nbsp;|&nbsp; Generado: 20 Febrero 2026 &nbsp;|&nbsp; Para: Directores LCG México</div>
+</div>
+
+<div class="container">
+
+  <div class="section-title">Resumen Ejecutivo</div>
+  
+  <div class="insights-box">
+    <h3>📊 Hallazgos Clave del Período</h3>
+    <div class="insight-item positive">
+      <div class="dot"></div>
+      <span><strong>Liderazgo en engagement por publicación:</strong> LCG México genera 20.9 interacciones por post, superando a Accenture (29.0 totales con solo 5 posts) y Sintec (18.5). Con 15 publicaciones en el período, LCG es el más activo de los tres competidores.</span>
+    </div>
+    <div class="insight-item positive">
+      <div class="dot"></div>
+      <span><strong>Contenido orgánico altamente efectivo:</strong> La tasa de interacción orgánica promedio es del 6.71%, muy por encima del benchmark de industria B2B en LinkedIn (2–3%). Esto indica que el contenido resuena genuinamente con la audiencia existente.</span>
+    </div>
+    <div class="insight-item warning">
+      <div class="dot"></div>
+      <span><strong>Dependencia alta en pauta pagada:</strong> El 90.3% de las impresiones provienen de contenido patrocinado. Aunque amplifica el alcance, la tasa de interacción pagada (1.27%) es 5x menor que la orgánica, señal de oportunidad para optimizar segmentación.</span>
+    </div>
+    <div class="insight-item warning">
+      <div class="dot"></div>
+      <span><strong>Brecha de seguidores vs. competencia:</strong> LCG cuenta con 1,202 seguidores frente a los 17,825 de Sintec y 116,037 de Accenture. Crecer la base de seguidores debe ser una prioridad para reducir la dependencia de pauta pagada a largo plazo.</span>
+    </div>
+    <div class="insight-item positive">
+      <div class="dot"></div>
+      <span><strong>47 nuevos seguidores 100% orgánicos:</strong> No se invirtió en seguidores patrocinados durante el período. El crecimiento fue completamente natural, lo cual es positivo para la calidad de la audiencia.</span>
+    </div>
+  </div>
+
+  <div class="section-title">KPIs Principales del Período</div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="value">63,375</div>
+      <div class="label">Impresiones totales</div>
+      <div class="sub">90.3% vía pauta pagada</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="value">6.71%</div>
+      <div class="label">Tasa de interacción orgánica</div>
+      <div class="sub">Benchmark B2B: 2–3%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="value">47</div>
+      <div class="label">Nuevos seguidores</div>
+      <div class="sub">100% orgánicos</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="value">1,202</div>
+      <div class="label">Seguidores totales</div>
+      <div class="sub">Base de audiencia actual</div>
+    </div>
+  </div>
+
+  <div class="section-title">Desempeño de Contenido</div>
+
+  <div class="two-col">
+    <div class="card">
+      <h4>Alcance y Visibilidad</h4>
+      <div class="metric-row"><span class="mname">Impresiones orgánicas</span><span class="mvalue">6,124</span></div>
+      <div class="metric-row"><span class="mname">Impresiones pagadas</span><span class="mvalue">57,251</span></div>
+      <div class="metric-row"><span class="mname">Impresiones únicas orgánicas</span><span class="mvalue">1,862 est.</span></div>
+      <div class="metric-row"><span class="mname">Visitas a la página</span><span class="mvalue">438</span></div>
+      <div class="metric-row"><span class="mname">Visitantes únicos</span><span class="mvalue">221</span></div>
+      <div class="metric-row"><span class="mname">Acceso móvil</span><span class="mvalue">52.1%</span></div>
+    </div>
+    <div class="card">
+      <h4>Interacción y Conversión</h4>
+      <div class="metric-row"><span class="mname">Reacciones totales</span><span class="mvalue">253</span></div>
+      <div class="metric-row"><span class="mname">Clics totales</span><span class="mvalue">433</span></div>
+      <div class="metric-row"><span class="mname">Veces compartido</span><span class="mvalue">65</span></div>
+      <div class="metric-row"><span class="mname">Comentarios</span><span class="mvalue">1</span></div>
+      <div class="metric-row"><span class="mname">ER orgánica promedio</span><span class="mvalue" style="color:#00875a">6.71%</span></div>
+      <div class="metric-row"><span class="mname">ER pagada promedio</span><span class="mvalue" style="color:#ff6b2b">1.27%</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Análisis Competitivo (20 Ene – 18 Feb 2026)</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Empresa</th>
+        <th>Seguidores Totales</th>
+        <th>Nuevos Seguidores</th>
+        <th>Publicaciones</th>
+        <th>Interacciones Totales</th>
+        <th>Interacciones / Post</th>
+        <th>Posición</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Accenture México</strong></td>
+        <td>116,037</td>
+        <td>+743</td>
+        <td>5</td>
+        <td>145</td>
+        <td>29.0</td>
+        <td><span class="badge badge-gray">1° seguidores</span></td>
+      </tr>
+      <tr class="highlight-row">
+        <td><strong>London Consulting Group MX</strong></td>
+        <td>1,202</td>
+        <td><strong>+47</strong></td>
+        <td><strong>15</strong></td>
+        <td><strong>313</strong></td>
+        <td><strong>20.9</strong></td>
+        <td><span class="badge badge-blue">1° interacciones</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sintec Consulting</strong></td>
+        <td>17,825</td>
+        <td>+61</td>
+        <td>2</td>
+        <td>37</td>
+        <td>18.5</td>
+        <td><span class="badge badge-gray">2° seguidores</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <div class="alert-box">
+    <p><strong>Nota competitiva:</strong> LCG México genera más interacciones totales que Accenture y Sintec combinados (313 vs. 182), a pesar de tener una fracción de sus seguidores. Esto refleja una estrategia de contenido más activa y relevante para su audiencia actual.</p>
+  </div>
+
+  <div class="section-title">Distribución de Impresiones — Orgánico vs. Pagado</div>
+
+  <div class="card">
+    <h4>Composición del alcance</h4>
+    <div class="bar-container">
+      <div class="bar-row">
+        <div class="bar-label">Impresiones pagadas</div>
+        <div class="bar-track">
+          <div class="bar-fill lcg" style="width:90.3%">90.3%</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Impresiones orgánicas</div>
+        <div class="bar-track">
+          <div class="bar-fill acc" style="width:9.7%; background:#0a3161">9.7%</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12px; color:#888; margin-top:12px;">La fuerte dependencia en pauta es común en páginas con base de seguidores en crecimiento. La estrategia óptima es usar pauta para ganar nuevos seguidores que después consuman contenido orgánicamente.</p>
+  </div>
+
+  <div class="section-title">Visitas a la Página — Dispositivo</div>
+
+  <div class="two-col">
+    <div class="card">
+      <h4>Canal de acceso</h4>
+      <div class="bar-container">
+        <div class="bar-row">
+          <div class="bar-label">Móvil</div>
+          <div class="bar-track">
+            <div class="bar-fill lcg" style="width:52.1%">52.1%</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Desktop</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:47.9%; background:#0a3161">47.9%</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px; color:#888; margin-top:12px;">Distribución casi equitativa. Asegurar que el contenido esté optimizado para ambos formatos.</p>
+    </div>
+    <div class="card">
+      <h4>Resumen de visitantes</h4>
+      <div class="metric-row"><span class="mname">Total visitas a la página</span><span class="mvalue">438</span></div>
+      <div class="metric-row"><span class="mname">Visitantes únicos</span><span class="mvalue">221</span></div>
+      <div class="metric-row"><span class="mname">Visitas página principal</span><span class="mvalue">258</span></div>
+      <div class="metric-row"><span class="mname">Visitas página de empleos</span><span class="mvalue">118</span></div>
+      <div class="metric-row"><span class="mname">Visitas página "Vida en empresa"</span><span class="mvalue">0</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Recomendaciones Estratégicas</div>
+
+  <div class="card">
+    <h4>Acciones sugeridas para el siguiente período</h4>
+    <div class="metric-row">
+      <span class="mname">1. <strong>Optimizar pauta hacia crecimiento de seguidores</strong> — Configurar campañas con objetivo "Follower Ads" para reducir dependencia futura de pauta de contenido.</span>
+      <span></span>
+    </div>
+    <div class="metric-row">
+      <span class="mname">2. <strong>Activar la sección "Vida en la empresa"</strong> — 0 visitas en el período indica que está desactivada o sin contenido. Es una oportunidad de employer branding.</span>
+      <span></span>
+    </div>
+    <div class="metric-row">
+      <span class="mname">3. <strong>Estimular comentarios</strong> — Con solo 1 comentario en 30 días, incluir preguntas abiertas o CTAs en publicaciones para activar conversaciones.</span>
+      <span></span>
+    </div>
+    <div class="metric-row">
+      <span class="mname">4. <strong>Mantener ritmo de publicación</strong> — 15 posts en 30 días es competitivo. Mantener frecuencia de 3–4 publicaciones semanales.</span>
+      <span></span>
+    </div>
+    <div class="metric-row" style="border:none">
+      <span class="mname">5. <strong>Revisar segmentación de pauta</strong> — La diferencia entre ER orgánica (6.71%) y pagada (1.27%) sugiere que el contenido patrocinado no está llegando al público más relevante.</span>
+      <span></span>
+    </div>
+  </div>
+
+</div>
+
+
+  <div class="section-title">Tendencias — Evolución del Período (20 Ene – 18 Feb 2026)</div>
+
+  <!-- CHART 1: Impresiones orgánicas vs pagadas -->
+  <div class="card" style="margin-bottom:24px;">
+    <h4>Impresiones diarias — Orgánico vs. Pagado</h4>
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start;">
+      <canvas id="chart-impressions" height="120"></canvas>
+      <div style="background:#f8fbff;border-radius:10px;padding:18px;border-left:3px solid #0077b5;">
+        <div style="font-size:11px;font-weight:700;color:#0077b5;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">📌 Conclusión</div>
+        <p style="font-size:12.5px;line-height:1.6;color:#333;">El alcance orgánico promedia <strong>204 impresiones/día</strong> — suficiente para mantener presencia, pero el <strong>90% del volumen depende de pauta</strong>. El pico del <strong>16 Feb (615 orgánicas)</strong> indica que un contenido específico tuvo tracción real. Identificar ese post y replicar su formato puede reducir la dependencia de presupuesto pagado.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 2: Engagement Rate -->
+  <div class="card" style="margin-bottom:24px;">
+    <h4>Tasa de interacción diaria — Orgánico vs. Pagado (%)</h4>
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start;">
+      <canvas id="chart-er" height="120"></canvas>
+      <div style="background:#f8fbff;border-radius:10px;padding:18px;border-left:3px solid #00875a;">
+        <div style="font-size:11px;font-weight:700;color:#00875a;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">📌 Conclusión</div>
+        <p style="font-size:12.5px;line-height:1.6;color:#333;">La ER orgánica promedio del <strong>6.71%</strong> triplica el benchmark B2B de LinkedIn (2–3%), pero su alta volatilidad (0% a 17.5%) indica que el desempeño depende mucho del tipo de contenido, no de una estrategia consistente. La ER pagada es estable pero baja (<strong>~1.3%</strong>), señal de que la segmentación de audiencia en pauta puede mejorarse.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom:24px;">
+    <!-- CHART 3: Clics y Reacciones -->
+    <div class="card">
+      <h4>Clics y Reacciones diarias</h4>
+      <canvas id="chart-engagement" height="160"></canvas>
+      <div style="background:#f8fbff;border-radius:10px;padding:14px;border-left:3px solid #ff6b2b;margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;color:#ff6b2b;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">📌 Conclusión</div>
+        <p style="font-size:12px;line-height:1.6;color:#333;">El <strong>16 Feb fue el día cumbre</strong> con 47 clics y 16 reacciones — 3x el promedio diario. Los fines de semana (25–26 Ene, 15 Feb) muestran caídas a cero, lo que sugiere que la audiencia de LCG es predominantemente <strong>profesional entre semana</strong>. Publicar de martes a jueves maximizaría el impacto.</p>
+      </div>
+    </div>
+    <!-- CHART 4: Nuevos seguidores -->
+    <div class="card">
+      <h4>Nuevos seguidores por día</h4>
+      <canvas id="chart-followers" height="160"></canvas>
+      <div style="background:#f8fbff;border-radius:10px;padding:14px;border-left:3px solid #00875a;margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;color:#00875a;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">📌 Conclusión</div>
+        <p style="font-size:12px;line-height:1.6;color:#333;">Crecimiento diario promedio de <strong>1.6 seguidores/día</strong>, modesto pero 100% orgánico. El pico del <strong>16 Feb (11 seguidores en un día)</strong> —el mismo día de mayor engagement— confirma que contenido de alta calidad convierte visitantes en seguidores. Una estrategia de contenido más consistente podría duplicar este ritmo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 5: Visitas a la página -->
+  <div class="card" style="margin-bottom:24px;">
+    <h4>Visitas a la página y visitantes únicos</h4>
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start;">
+      <canvas id="chart-visitors" height="120"></canvas>
+      <div style="background:#f8fbff;border-radius:10px;padding:18px;border-left:3px solid #0a3161;">
+        <div style="font-size:11px;font-weight:700;color:#0a3161;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">📌 Conclusión</div>
+        <p style="font-size:12.5px;line-height:1.6;color:#333;">La segunda quincena de febrero muestra <strong>mayor tráfico sostenido</strong>, con el pico del <strong>12 Feb (39 visitas)</strong> como punto máximo. La brecha mínima entre visitas totales y visitantes únicos indica que casi cada visita es de alguien diferente — señal de que la página <strong>aún no tiene visitantes recurrentes</strong>. Activar contenido de "Vida en la empresa" podría generar revisitas.</p>
+      </div>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+const dates = ["20/01","21/01","22/01","23/01","24/01","25/01","26/01","27/01","28/01","29/01","30/01","31/01","01/02","02/02","03/02","04/02","05/02","06/02","07/02","08/02","09/02","10/02","11/02","12/02","13/02","14/02","15/02","16/02","17/02","18/02"];
+const impOrg = [333,177,229,66,80,56,194,128,425,304,119,164,154,230,200,446,303,214,56,43,159,210,238,378,80,79,48,615,205,191];
+const impPaid = [4577,4761,4453,1974,2026,1087,1661,1839,1830,1593,1525,992,808,2577,2378,2311,1907,1586,1073,779,1242,1322,1817,1631,1533,1478,1146,2129,2316,900];
+const erOrg = [0.6,5.65,7.86,0.0,3.75,1.79,10.31,8.59,6.35,7.57,15.97,4.27,10.39,3.91,17.5,10.99,7.92,2.8,0.0,2.33,9.43,3.81,11.34,10.05,5.0,1.27,2.08,8.62,11.22,9.95];
+const erPaid = [1.64,1.24,1.35,1.77,0.99,1.01,1.38,0.6,1.15,1.38,0.46,0.5,1.11,1.4,1.22,0.78,1.63,1.83,0.93,1.67,1.37,1.13,1.6,1.59,1.3,1.35,1.57,1.27,0.99,1.78];
+const clicks = [23,26,26,11,8,5,19,11,11,6,5,8,11,13,22,24,19,11,3,5,11,11,23,30,12,4,8,47,7,13];
+const reactions = [6,9,14,0,2,0,12,3,13,10,5,1,7,6,19,30,8,8,1,2,8,3,13,14,4,4,0,16,24,11];
+const newFollowers = [4,0,1,1,1,1,2,1,2,0,1,1,0,0,1,2,1,1,2,0,4,2,1,2,2,0,1,11,1,1];
+const pageViews = [12,13,19,7,6,9,22,6,26,23,14,0,5,8,17,23,30,13,3,3,29,23,15,39,13,6,2,27,16,9];
+const uniqueVisitors = [6,5,11,6,2,4,11,3,14,11,8,0,2,4,10,11,16,6,3,3,14,10,9,16,5,4,1,13,7,6];
+
+const defaultOpts = {
+  responsive: true,
+  plugins: { legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12 } } },
+  scales: {
+    x: { ticks: { font: { size: 10 }, maxRotation: 45 }, grid: { display: false } },
+    y: { ticks: { font: { size: 10 } }, grid: { color: '#f0f0f0' } }
+  }
+};
+
+// Chart 1 - Impressions
+new Chart(document.getElementById('chart-impressions'), {
+  type: 'bar',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'Pagadas', data: impPaid, backgroundColor: 'rgba(0,119,181,0.7)', borderRadius: 3 },
+      { label: 'Orgánicas', data: impOrg, backgroundColor: 'rgba(0,135,90,0.8)', borderRadius: 3 }
+    ]
+  },
+  options: { ...defaultOpts, scales: { ...defaultOpts.scales, x: { ...defaultOpts.scales.x, stacked: false }, y: { ...defaultOpts.scales.y, stacked: false } } }
+});
+
+// Chart 2 - ER
+new Chart(document.getElementById('chart-er'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'ER Orgánica (%)', data: erOrg, borderColor: '#00875a', backgroundColor: 'rgba(0,135,90,0.1)', tension: 0.3, fill: true, pointRadius: 3 },
+      { label: 'ER Pagada (%)', data: erPaid, borderColor: '#0077b5', backgroundColor: 'rgba(0,119,181,0.08)', tension: 0.3, fill: true, pointRadius: 3 }
+    ]
+  },
+  options: defaultOpts
+});
+
+// Chart 3 - Clicks & Reactions
+new Chart(document.getElementById('chart-engagement'), {
+  type: 'bar',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'Clics', data: clicks, backgroundColor: 'rgba(0,119,181,0.7)', borderRadius: 3 },
+      { label: 'Reacciones', data: reactions, backgroundColor: 'rgba(255,107,43,0.7)', borderRadius: 3 }
+    ]
+  },
+  options: defaultOpts
+});
+
+// Chart 4 - New Followers
+new Chart(document.getElementById('chart-followers'), {
+  type: 'bar',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'Nuevos seguidores', data: newFollowers, backgroundColor: 'rgba(0,135,90,0.75)', borderRadius: 3 }
+    ]
+  },
+  options: defaultOpts
+});
+
+// Chart 5 - Visitors
+new Chart(document.getElementById('chart-visitors'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'Visitas totales', data: pageViews, borderColor: '#0a3161', backgroundColor: 'rgba(10,49,97,0.08)', tension: 0.3, fill: true, pointRadius: 3 },
+      { label: 'Visitantes únicos', data: uniqueVisitors, borderColor: '#0077b5', backgroundColor: 'rgba(0,119,181,0.08)', tension: 0.3, fill: true, pointRadius: 3, borderDash: [5,3] }
+    ]
+  },
+  options: defaultOpts
+});
+</script>
+
+<div class="footer">
+  London Consulting Group México &nbsp;|&nbsp; Reporte LinkedIn &nbsp;|&nbsp; 20 Enero – 18 Febrero 2026 &nbsp;|&nbsp; Confidencial — Solo para uso interno de Directores
+</div>
+
+</body>
+</html>
