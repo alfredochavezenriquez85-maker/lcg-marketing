@@ -84,8 +84,8 @@
   .alert-box p { font-size: 14px; color: #8a6200; line-height: 1.6; }
   .alert-box strong { color: #5a4000; }
 
-  /* Chart layout */
-  .chart-with-conclusion { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
+  /* Chart layout - stacked to avoid overflow */
+  .chart-with-conclusion { display: flex; flex-direction: column; gap: 18px; }
 </style>
 </head>
 <body>
