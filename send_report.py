@@ -12,6 +12,7 @@ load_dotenv()
 GMAIL_USER = os.getenv("GMAIL_USER")
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
 REPORT_PATH = os.getenv("REPORT_PATH")
+REPORT_WEB_URL = os.getenv("REPORT_WEB_URL", "")
 
 RECIPIENTS = [
     "leonardo.pimentel@londoncg.com",
@@ -23,28 +24,30 @@ RECIPIENTS = [
 
 SUBJECT = "\U0001f4ca Reporte LinkedIn LCG M\u00e9xico \u2014 Enero/Febrero 2026"
 
-HTML_BODY = """\
+HTML_BODY = f"""\
 <html>
 <head>
 <style>
-  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; background: #f4f6f9; margin: 0; padding: 0; }
-  .container { max-width: 680px; margin: 0 auto; padding: 32px 24px; }
-  .header { background: linear-gradient(135deg, #0a3161 0%, #0077b5 100%); color: white; padding: 28px 32px; border-radius: 12px 12px 0 0; }
-  .header h1 { font-size: 20px; font-weight: 300; margin: 0; }
-  .header p { font-size: 13px; opacity: 0.8; margin: 6px 0 0; }
-  .content { background: white; padding: 28px 32px; border-radius: 0 0 12px 12px; }
-  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
-  .kpi { background: #f8fbff; border-radius: 8px; padding: 16px; border-left: 3px solid #0077b5; }
-  .kpi.green { border-left-color: #00875a; }
-  .kpi.orange { border-left-color: #ff6b2b; }
-  .kpi .value { font-size: 24px; font-weight: 700; color: #0a3161; }
-  .kpi.green .value { color: #00875a; }
-  .kpi.orange .value { color: #ff6b2b; }
-  .kpi .label { font-size: 11px; color: #666; margin-top: 2px; }
-  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #0077b5; text-transform: uppercase; margin: 24px 0 12px; }
-  .insight { font-size: 13px; line-height: 1.6; color: #333; margin-bottom: 8px; padding-left: 14px; border-left: 3px solid #0077b5; }
-  .insight.warn { border-left-color: #ff6b2b; }
-  .footer { text-align: center; font-size: 11px; color: #999; margin-top: 24px; }
+  body {{ font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; background: #f4f6f9; margin: 0; padding: 0; }}
+  .container {{ max-width: 680px; margin: 0 auto; padding: 32px 24px; }}
+  .header {{ background: linear-gradient(135deg, #0a3161 0%, #0077b5 100%); color: white; padding: 28px 32px; border-radius: 12px 12px 0 0; }}
+  .header h1 {{ font-size: 20px; font-weight: 300; margin: 0; }}
+  .header p {{ font-size: 13px; opacity: 0.8; margin: 6px 0 0; }}
+  .content {{ background: white; padding: 28px 32px; border-radius: 0 0 12px 12px; }}
+  .kpi-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }}
+  .kpi {{ background: #f8fbff; border-radius: 8px; padding: 16px; border-left: 3px solid #0077b5; }}
+  .kpi.green {{ border-left-color: #00875a; }}
+  .kpi.orange {{ border-left-color: #ff6b2b; }}
+  .kpi .value {{ font-size: 24px; font-weight: 700; color: #0a3161; }}
+  .kpi.green .value {{ color: #00875a; }}
+  .kpi.orange .value {{ color: #ff6b2b; }}
+  .kpi .label {{ font-size: 11px; color: #666; margin-top: 2px; }}
+  .section-title {{ font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #0077b5; text-transform: uppercase; margin: 24px 0 12px; }}
+  .insight {{ font-size: 13px; line-height: 1.6; color: #333; margin-bottom: 8px; padding-left: 14px; border-left: 3px solid #0077b5; }}
+  .insight.warn {{ border-left-color: #ff6b2b; }}
+  .footer {{ text-align: center; font-size: 11px; color: #999; margin-top: 24px; }}
+  .cta-section {{ text-align: center; padding: 20px 0; border-top: 1px solid #eee; margin-top: 24px; }}
+  .cta-button {{ display: inline-block; background: linear-gradient(135deg, #0077b5, #005f8d); color: white; padding: 14px 36px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; margin: 12px 0; box-shadow: 0 4px 12px rgba(0,119,181,0.3); }}
 </style>
 </head>
 <body>
@@ -56,8 +59,8 @@ HTML_BODY = """\
   <div class="content">
     <p style="font-size:14px;color:#333;">Estimados Directores,</p>
     <p style="font-size:13px;color:#555;line-height:1.6;">
-      Adjunto encontrar&aacute;n el reporte completo de desempe&ntilde;o de LinkedIn para el per&iacute;odo
-      <strong>20 de enero &ndash; 18 de febrero 2026</strong>. A continuaci&oacute;n, un resumen ejecutivo de los KPIs m&aacute;s relevantes:
+      A continuaci&oacute;n un resumen ejecutivo del desempe&ntilde;o de LinkedIn para el per&iacute;odo
+      <strong>20 de enero &ndash; 18 de febrero 2026</strong>.
     </p>
 
     <div class="section-title">KPIs Principales</div>
@@ -88,10 +91,10 @@ HTML_BODY = """\
       <strong>Contenido org&aacute;nico efectivo:</strong> ER org&aacute;nica del 6.71%, m&aacute;s del doble del benchmark B2B de LinkedIn.
     </div>
     <div class="insight warn">
-      <strong>Dependencia de pauta:</strong> 90.3% de impresiones son pagadas. ER pagada (1.27%) es 5x menor que org&aacute;nica &mdash; oportunidad de optimizar segmentaci&oacute;n.
+      <strong>Dependencia de pauta:</strong> 90.3% impresiones pagadas. ER pagada (1.27%) es 5x menor que org&aacute;nica.
     </div>
     <div class="insight warn">
-      <strong>Brecha de seguidores:</strong> LCG (1,202) vs. Sintec (17,825) vs. Accenture (116,037). Crecer la base es prioridad.
+      <strong>Brecha de seguidores:</strong> LCG (1,202) vs. Sintec (17,825) vs. Accenture (116,037).
     </div>
 
     <div class="section-title">M&eacute;tricas de Interacci&oacute;n</div>
@@ -114,14 +117,15 @@ HTML_BODY = """\
       </div>
     </div>
 
-    <p style="font-size:13px;color:#555;line-height:1.6;margin-top:20px;">
-      El reporte completo con gr&aacute;ficas de tendencias, an&aacute;lisis competitivo detallado y recomendaciones
-      estrat&eacute;gicas se encuentra en el archivo adjunto.
-    </p>
+    <div class="cta-section">
+      <p style="font-size:14px;color:#333;font-weight:600;">Reporte completo con gr&aacute;ficas y recomendaciones:</p>
+      <a href="{REPORT_WEB_URL}" class="cta-button">&#128202; Ver Reporte Completo</a>
+      <p style="font-size:11px;color:#aaa;margin-top:12px;">Tambi&eacute;n adjunto como archivo HTML.</p>
+    </div>
 
     <div class="footer">
       <p>London Consulting Group M&eacute;xico &mdash; Reporte LinkedIn &mdash; Confidencial</p>
-      <p>Generado autom&aacute;ticamente el 20 de febrero de 2026</p>
+      <p>Generado autom&aacute;ticamente &mdash; Febrero 2026</p>
     </div>
   </div>
 </div>
